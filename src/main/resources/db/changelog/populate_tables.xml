@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="populate-usuario-table" author="quiroprax-admin">
+        <preConditions onFail="WARN" onFailMessage="Table needs to exists for it to be initialized: 'usuario'">
+            <tableExists tableName="usuario" />
+        </preConditions>
+
+        <insert tableName="usuario">
+            <column name="id">1</column>
+            <column name="nome">Atendente 1</column>
+            <column name="login">atendente1</column>
+
+            <!-- 'senha' -->
+            <column name="senha">$2a$10$KUFTJOgfjf1v1/bYRGEHMOdeq7ZckaFzWwa0JGanKh2lS9rndkOqO</column>
+            <column name="ativo" valueNumeric="1"></column>
+        </insert>
+
+        <modifySql>
+            <replace replace="INSERT" with="INSERT IGNORE"/>
+        </modifySql>
+    </changeSet>
+
+    <changeSet id="populate-paciente-table" author="quiroprax-admin">
+        <preConditions onFail="WARN" onFailMessage="Table needs to exists for it to be initialized: 'paciente'">
+            <tableExists tableName="paciente" />
+        </preConditions>
+
+        <insert tableName="paciente">
+            <column name="id">1</column>
+            <column name="nome">Paciente 1</column>
+            <column name="email">paciente@hotmail.com</column>
+            <column name="telefone">(83) 2807-6711</column>
+            <column name="cpf">01810864410</column>
+            <column name="ativo" valueNumeric="1"></column>
+        </insert>
+
+        <modifySql>
+            <replace replace="INSERT" with="INSERT IGNORE"/>
+        </modifySql>
+    </changeSet>
+
+    <changeSet id="populate-status-table" author="quiroprax-admin">
+        <preConditions onFail="WARN" onFailMessage="Table needs to exists for it to be initialized: 'status_agendamento'">
+            <tableExists tableName="status_agendamento" />
+        </preConditions>
+
+        <insert tableName="status_agendamento">
+            <column name="id">1</column>
+            <column name="nome">AGENDADO</column>
+        </insert>
+
+        <insert tableName="status_agendamento">
+            <column name="id">2</column>
+            <column name="nome">REALIZADO</column>
+        </insert>
+
+        <insert tableName="status_agendamento">
+            <column name="id">3</column>
+            <column name="nome">CANCELADO</column>
+        </insert>
+
+        <insert tableName="status_agendamento">
+            <column name="id">4</column>
+            <column name="nome">REMARCADO</column>
+        </insert>
+
+        <modifySql>
+            <replace replace="INSERT" with="INSERT IGNORE"/>
+        </modifySql>
+    </changeSet>
+
+</databaseChangeLog>

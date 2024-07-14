@@ -1,0 +1,101 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="quiroprax-dev" id="1720856243204-1">
+        <createTable tableName="agendamento">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(80)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(80)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="paciente_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="data_hora" type="timestamp"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="quiroprax-dev" id="1720856243204-2">
+        <createTable tableName="paciente">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="nome" type="VARCHAR(80)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(80)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="telefone" type="VARCHAR(40)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="cpf" type="VARCHAR(11)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column defaultValueNumeric="1" name="ativo" type="BIT(1)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="quiroprax-dev" id="1720856243204-3">
+        <createTable tableName="status_agendamento">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="nome" type="VARCHAR(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="quiroprax-dev" id="1720856243204-4">
+        <createTable tableName="usuario">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="nome" type="VARCHAR(80)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="login" type="VARCHAR(80)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="senha" type="VARCHAR(80)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column defaultValueNumeric="1" name="ativo" type="BIT(1)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="quiroprax-dev" id="1720856243204-5">
+        <createIndex associatedWith="" indexName="paciente_id" tableName="agendamento">
+            <column name="paciente_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="quiroprax-dev" id="1720856243204-6">
+        <createIndex associatedWith="" indexName="status_id" tableName="agendamento">
+            <column name="status_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="quiroprax-dev" id="1720856243204-7">
+        <addForeignKeyConstraint baseColumnNames="paciente_id" baseTableName="agendamento" constraintName="agendamento_ibfk_1" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="paciente" validate="true"/>
+    </changeSet>
+
+    <changeSet author="quiroprax-dev" id="1720856243204-8">
+        <addForeignKeyConstraint baseColumnNames="status_id" baseTableName="agendamento" constraintName="agendamento_ibfk_2" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="status_agendamento" validate="true"/>
+    </changeSet>
+
+</databaseChangeLog>
