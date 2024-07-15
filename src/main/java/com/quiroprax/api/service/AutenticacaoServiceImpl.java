@@ -1,7 +1,6 @@
 package com.quiroprax.api.service;
 
-import com.quiroprax.api.model.Usuario;
-import com.quiroprax.api.model.dto.CadastroUsuarioDTO;
+import com.quiroprax.api.model.Atendente;
 import com.quiroprax.api.model.dto.LoginDTO;
 import com.quiroprax.api.model.dto.TokenDTO;
 import org.slf4j.Logger;
@@ -12,22 +11,20 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AuthenticacaoServiceImpl implements AuthenticacaoService {
+public class AutenticacaoServiceImpl implements AutenticacaoService {
 
-	private static final Logger logger = LoggerFactory.getLogger(AuthenticacaoServiceImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(AutenticacaoServiceImpl.class);
 
 	@Autowired @Lazy private AuthenticationManager authManager;
-	@Autowired private PasswordEncoder passwordEncoder;
 	@Autowired private TokenServiceImpl tokenService;
-	@Autowired private UsuarioService userService;
+	@Autowired private AtendenteService atendenteService;
 
 	@Override
 	public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-		return userService.getByLogin(login);
+		return atendenteService.buscarPorLogin(login);
 	}
 
 	@Override
@@ -35,16 +32,10 @@ public class AuthenticacaoServiceImpl implements AuthenticacaoService {
 		var token = new UsernamePasswordAuthenticationToken(loginDTO.login(), loginDTO.senha());
 		var authentication = authManager.authenticate(token);
 
-		var user = (Usuario) authentication.getPrincipal();
+		var user = (Atendente) authentication.getPrincipal();
 
 		var generatedToken = tokenService.generateToken(user);
 		return new TokenDTO(generatedToken);
-	}
-
-	@Override
-	public void signUp(CadastroUsuarioDTO signUpData) {
-		var encryptedPassword = passwordEncoder.encode(signUpData.senha());
-		userService.signUp(new CadastroUsuarioDTO(signUpData.nome(), signUpData.login(), encryptedPassword));
 	}
 
 }

@@ -2,7 +2,7 @@ package com.quiroprax.api.service;
 
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.quiroprax.api.model.Usuario;
+import com.quiroprax.api.model.Atendente;
 
 import java.util.Map;
 
@@ -13,7 +13,7 @@ public interface TokenService {
     String CLAIM_ORGANIZATION_ID_TOKEN = "orgId";
     String CLAIM_POSITION_TOKEN = "position";
 
-    String generateToken(Usuario usuario);
+    String generateToken(Atendente atendente);
     String getSubject(String token);
     Map<String, Claim> getClaims(String token);
     DecodedJWT verifyAndReturnToken(String jwtToken);

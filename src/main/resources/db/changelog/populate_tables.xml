@@ -4,12 +4,12 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-    <changeSet id="populate-usuario-table" author="quiroprax-admin">
-        <preConditions onFail="WARN" onFailMessage="Table needs to exists for it to be initialized: 'usuario'">
-            <tableExists tableName="usuario" />
+    <changeSet id="populate-atendente-table" author="quiroprax-admin">
+        <preConditions onFail="WARN" onFailMessage="Table needs to exists for it to be initialized: 'atendente'">
+            <tableExists tableName="atendente" />
         </preConditions>
 
-        <insert tableName="usuario">
+        <insert tableName="atendente">
             <column name="id">1</column>
             <column name="nome">Atendente 1</column>
             <column name="login">atendente1</column>
