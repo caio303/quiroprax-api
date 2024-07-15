@@ -48,6 +48,12 @@ public class AtendenteServiceImpl implements AtendenteService {
 	}
 
 	@Override
+	@Transactional
+	public void removerAtendente(Long id) {
+		atendenteRepository.deleteById(id);
+	}
+
+	@Override
 	@Transactional(readOnly = true)
 	public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
 		return atendenteRepository.findByLogin(login);
