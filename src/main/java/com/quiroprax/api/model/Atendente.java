@@ -12,9 +12,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Arrays;
 import java.util.Collection;
 
-@Table(name = "usuario")
+@Table(name = "atendente")
 @Entity
-public class Usuario implements UserDetails {
+public class Atendente implements UserDetails {
 
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY) 

@@ -1,6 +1,6 @@
 package com.quiroprax.api;
 
-import com.quiroprax.api.infra.configurations.DocumentedAPI;
+import com.quiroprax.api.infra.configurations.swagger.DocumentedAPI;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

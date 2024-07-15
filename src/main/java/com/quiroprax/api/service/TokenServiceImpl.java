@@ -7,7 +7,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.quiroprax.api.infra.errors.exceptions.InvalidTokenException;
-import com.quiroprax.api.model.Usuario;
+import com.quiroprax.api.model.Atendente;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -24,12 +24,12 @@ public class TokenServiceImpl implements TokenService {
 	private Long expirationTimeInMinutes;
 
 	@Override
-	public String generateToken(Usuario usuario) {
+	public String generateToken(Atendente atendente) {
 		try {
 		    return JWT.create()
 		        .withIssuer(ISSUER)
-		        .withSubject(usuario.getUsername())
-		        .withClaim(CLAIM_USER_ID_TOKEN, usuario.getId())
+		        .withSubject(atendente.getUsername())
+		        .withClaim(CLAIM_USER_ID_TOKEN, atendente.getId())
 		        .withExpiresAt(expirationDate())
 		        .sign(getAlgorithm());
 		} catch (JWTCreationException exception) {

@@ -59,7 +59,7 @@
     </changeSet>
 
     <changeSet author="quiroprax-dev" id="1720856243204-4">
-        <createTable tableName="usuario">
+        <createTable tableName="atendente">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
