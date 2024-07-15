@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,12 +18,6 @@ public class AutenticacaoServiceImpl implements AutenticacaoService {
 
 	@Autowired @Lazy private AuthenticationManager authManager;
 	@Autowired private TokenServiceImpl tokenService;
-	@Autowired private AtendenteService atendenteService;
-
-	@Override
-	public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-		return atendenteService.buscarPorLogin(login);
-	}
 
 	@Override
 	public TokenDTO login(LoginDTO loginDTO) {

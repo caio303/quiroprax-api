@@ -1,16 +1,15 @@
 package com.quiroprax.api.service;
 
 import com.quiroprax.api.model.dto.AtendenteDTO;
-import com.quiroprax.api.model.dto.CadastroUsuarioDTO;
+import com.quiroprax.api.model.dto.CadastroAtendenteDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
-public interface AtendenteService {
+public interface AtendenteService extends UserDetailsService {
 
     Page<AtendenteDTO> listarAtendentes(Pageable pageable);
 
-    void cadastrarAtendente(CadastroUsuarioDTO signUpData);
+    void cadastrarAtendente(CadastroAtendenteDTO signUpData);
 
-    UserDetails buscarPorLogin(String login);
 }

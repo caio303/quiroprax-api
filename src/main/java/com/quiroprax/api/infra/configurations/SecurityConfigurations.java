@@ -35,10 +35,10 @@ public class SecurityConfigurations {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-	                        .requestMatchers("/auth/login")
+	                        .requestMatchers("/atendentes/login")
 	                        	.permitAll()
-                        	.requestMatchers(HttpMethod.GET, "/info")
-                        		.permitAll()
+                        	//.requestMatchers(HttpMethod.GET, "/info")
+                        	//	.permitAll()
                         	.requestMatchers(HttpMethod.GET, SWAGGER_GET_ENDPOINTS)
                         		.permitAll()
 	                        .anyRequest()

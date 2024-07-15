@@ -1,4 +1,4 @@
-package com.quiroprax.api.infra.configurations;
+package com.quiroprax.api.infra.configurations.swagger;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;

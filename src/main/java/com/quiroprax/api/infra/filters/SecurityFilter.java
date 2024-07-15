@@ -30,7 +30,7 @@ public class SecurityFilter extends OncePerRequestFilter {
 			var decodedToken = tokenService.verifyAndReturnToken(jwtToken);
 			var tokenSubject = decodedToken.getSubject();
 
-			var userDetails = atendenteService.buscarPorLogin(tokenSubject);
+			var userDetails = atendenteService.loadUserByUsername(tokenSubject);
 
 			var authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 			SecurityContextHolder.getContext().setAuthentication(authentication);
