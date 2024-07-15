@@ -12,4 +12,6 @@ public interface AtendenteService extends UserDetailsService {
 
     void cadastrarAtendente(CadastroAtendenteDTO signUpData);
 
+    void removerAtendente(Long id);
+
 }
