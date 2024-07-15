@@ -7,12 +7,12 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @SecurityScheme(
-        name = "nomesecurity",
+        name = "BEARER_AUTH",
         type = SecuritySchemeType.HTTP,
         bearerFormat = "JWT",
         scheme = "Bearer",
         description = "Bearer Token Authentication Scheme"
 )
 public interface BearerAuth {
-    String NAME = "nomesecurity";
+    String NAME = "BEARER_AUTH";
 }
