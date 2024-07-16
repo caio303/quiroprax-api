@@ -15,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,21 +38,21 @@ public class AtendentesController {
 
     @GetMapping
     @SecurityRequirement(name = BearerAuth.NAME)
-    public ResponseEntity<Page<AtendenteDTO>> listarAtendentes(@PageableDefault(size = 10) Pageable paginacao, Authentication authentication) {
+    public ResponseEntity<Page<AtendenteDTO>> listarAtendentes(@PageableDefault(size = 10) Pageable paginacao) {
         var atendentesAtivos = atendenteService.listarAtendentes(paginacao);
         return ResponseEntity.ok(atendentesAtivos);
     }
 
     @PostMapping
     @SecurityRequirement(name = BearerAuth.NAME)
-    public ResponseEntity<TokenDTO> cadastroAtendente(@RequestBody @Valid CadastroAtendenteDTO cadastroAtendenteDTO, Authentication authentication) {
+    public ResponseEntity<Void> cadastroAtendente(@RequestBody @Valid CadastroAtendenteDTO cadastroAtendenteDTO) {
         atendenteService.cadastrarAtendente(cadastroAtendenteDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @DeleteMapping(path = "/{atendenteId}")
     @SecurityRequirement(name = BearerAuth.NAME)
-    public ResponseEntity<Void> removerAtendente(@PathVariable(name = "atendenteId") Long atendenteId, Authentication authentication) {
+    public ResponseEntity<Void> removerAtendente(@PathVariable(name = "atendenteId") Long atendenteId) {
         atendenteService.removerAtendente(atendenteId);
         return ResponseEntity.noContent().build();
     }

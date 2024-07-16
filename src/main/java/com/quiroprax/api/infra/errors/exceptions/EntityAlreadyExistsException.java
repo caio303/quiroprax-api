@@ -10,6 +10,6 @@ public class EntityAlreadyExistsException extends BaseHttpMappedException {
     }
 
     public <T> EntityAlreadyExistsException(Class<T> entityClass, String fieldName, Object value) {
-        super(entityClass.getSimpleName() + " com '" + fieldName + "' igual a '" +value.toString() + "' ja existe");
+        super(entityClass.getSimpleName() + " com '" + fieldName + "' igual a '" +value.toString() + "' ja cadastrado(a)");
     }
 }
