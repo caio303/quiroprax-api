@@ -56,7 +56,7 @@ public class QuiropraxExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity handleException(Exception ex) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Error(ex.getLocalizedMessage()));
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Error("Ocorreu um erro interno, entre em contato ou tente mais tarde..."));
     }
 
 	private record Error (Integer errorCode, String message) {

@@ -3,6 +3,7 @@ package com.quiroprax.api.service;
 import com.quiroprax.api.dao.AtendenteRepository;
 import com.quiroprax.api.infra.errors.exceptions.EntityAlreadyExistsException;
 import com.quiroprax.api.model.Atendente;
+import com.quiroprax.api.model.assembler.AtendenteAssembler;
 import com.quiroprax.api.model.dto.AtendenteDTO;
 import com.quiroprax.api.model.dto.CadastroAtendenteDTO;
 import org.slf4j.Logger;
@@ -18,6 +19,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 public class AtendenteServiceImpl implements AtendenteService {
 
@@ -25,6 +28,8 @@ public class AtendenteServiceImpl implements AtendenteService {
 
 	@Lazy @Autowired private PasswordEncoder passwordEncoder;
 	@Autowired private AtendenteRepository atendenteRepository;
+
+	private AtendenteAssembler atendenteAssembler = new AtendenteAssembler();
 
 	@Override
 	@Transactional(readOnly = true)
@@ -44,27 +49,20 @@ public class AtendenteServiceImpl implements AtendenteService {
 			throw new EntityAlreadyExistsException(Atendente.class, "login", login);
 		}
 
-		atendenteRepository.save(novoAtendente(encryptedSignUpData));
+		var atendente = atendenteAssembler.paraAtendente(encryptedSignUpData);
+		atendenteRepository.save(atendente);
 	}
 
 	@Override
 	@Transactional
 	public void removerAtendente(Long id) {
-		atendenteRepository.deleteById(id);
+		Optional<Atendente> atendente = atendenteRepository.findById(id);
+        atendente.ifPresent(value -> value.setAtivo(false));
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
 		return atendenteRepository.findByLogin(login);
-	}
-
-	private Atendente novoAtendente(CadastroAtendenteDTO signUpData) {
-		var atendente = new Atendente();
-		atendente.setNome(signUpData.nome());
-		atendente.setLogin(signUpData.login());
-		atendente.setSenha(signUpData.senha());
-		atendente.setAtivo(Boolean.TRUE);
-		return atendente;
 	}
 }
