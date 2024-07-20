@@ -2,10 +2,10 @@ package com.quiroprax.api.controller;
 
 import com.quiroprax.api.infra.configurations.swagger.BearerAuth;
 import com.quiroprax.api.infra.errors.exceptions.EntityNotFoundException;
-import com.quiroprax.api.model.Agendamento;
 import com.quiroprax.api.model.HorarioDisponivel;
 import com.quiroprax.api.model.Usuario;
 import com.quiroprax.api.model.dto.AgendamentoDTO;
+import com.quiroprax.api.model.dto.CadastroHorariosDisponiveisDTO;
 import com.quiroprax.api.model.dto.HorarioDisponivelDTO;
 import com.quiroprax.api.model.dto.MarcacaoAgendamentoDTO;
 import com.quiroprax.api.service.AgendamentoService;
@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @SecurityRequirement(name = BearerAuth.NAME)
 @RequestMapping("/agendamentos")
@@ -35,7 +37,7 @@ public class AgendamentosController {
     @Autowired private HorarioDisponivelService horarioDisponivelService;
 
     @GetMapping(path = "/{pacienteId}")
-    public ResponseEntity<Page<Agendamento>> listarPorPaciente(@PathVariable(name = "pacienteId") Long pacienteId,
+    public ResponseEntity<Page<AgendamentoDTO>> listarPorPaciente(@PathVariable(name = "pacienteId") Long pacienteId,
                                                                @PageableDefault(size = 10) Pageable paginacao) {
         var agendamentos = agendamentoService.listarPorPaciente(pacienteId, paginacao);
         return ResponseEntity.ok(agendamentos);
@@ -66,6 +68,12 @@ public class AgendamentosController {
         } else {
             throw new EntityNotFoundException(Usuario.class, "id", pacienteId);
         }
+    }
+
+    @PostMapping(path = "/disponiveis")
+    public ResponseEntity<Void> cadastrarHorariosDisponiveis(@RequestBody @Valid List<CadastroHorariosDisponiveisDTO> cadastroHorariosDisponiveisDTOs) {
+        horarioDisponivelService.cadastrarHorariosDisponiveis(cadastroHorariosDisponiveisDTOs);
+        return ResponseEntity.ok().build();
     }
 
 }

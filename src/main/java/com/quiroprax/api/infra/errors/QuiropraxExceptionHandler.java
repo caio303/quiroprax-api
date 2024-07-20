@@ -2,6 +2,8 @@ package com.quiroprax.api.infra.errors;
 
 import com.quiroprax.api.infra.errors.exceptions.BaseHttpMappedException;
 import com.quiroprax.api.infra.errors.exceptions.InvalidTokenException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -12,13 +14,16 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.HandlerMethodValidationException;
 
 import java.util.NoSuchElementException;
 
 @RestControllerAdvice
 public class QuiropraxExceptionHandler {
 
-	@ExceptionHandler(MethodArgumentNotValidException.class)
+    private static final Logger log = LoggerFactory.getLogger(QuiropraxExceptionHandler.class);
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity handleBadRequest(MethodArgumentNotValidException ex) {
 		var errors = ex.getFieldErrors();
 		return ResponseEntity.badRequest().body(errors.stream().map(FieldValidationError::new).toList());
@@ -27,6 +32,11 @@ public class QuiropraxExceptionHandler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity handleBadRequest2(HttpMessageNotReadableException ex) {
         return ResponseEntity.badRequest().body(new Error(HttpStatus.BAD_REQUEST, ex.getMessage()));
+    }
+
+    @ExceptionHandler(HandlerMethodValidationException.class)
+    public ResponseEntity handleBadRequest3(HandlerMethodValidationException ex) {
+        return ResponseEntity.badRequest().body(new Error(HttpStatus.BAD_REQUEST, "Bad Request: Verificar formatações do corpo da requisição"));
     }
 
     @ExceptionHandler(NoSuchElementException.class)
@@ -56,6 +66,7 @@ public class QuiropraxExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity handleException(Exception ex) {
+        ex.printStackTrace();
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Error("Ocorreu um erro interno, entre em contato ou tente mais tarde..."));
     }
 

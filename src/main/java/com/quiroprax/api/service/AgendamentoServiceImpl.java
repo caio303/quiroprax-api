@@ -17,10 +17,18 @@ public class AgendamentoServiceImpl implements AgendamentoService {
 
     @Autowired
     private AgendamentoRepository agendamentoRepository;
+    @Autowired
+    private PacienteService pacienteService;
 
     @Override
-    public Page<Agendamento> listarPorPaciente(Long pacienteId, Pageable paginacao) {
-        return agendamentoRepository.findAllByPacienteId(pacienteId, paginacao);
+    public Page<AgendamentoDTO> listarPorPaciente(Long pacienteId, Pageable paginacao) {
+        var paciente = pacienteService.buscarPorId(pacienteId);
+        if (paciente.isPresent()) {
+            var agendamentosDoPaciente = agendamentoRepository.findAllByPaciente(paciente.get(), paginacao);
+            return agendamentosDoPaciente.map(AgendamentoDTO::new);
+        } else {
+            return Page.empty();
+        }
     }
 
     @Override
@@ -31,9 +39,9 @@ public class AgendamentoServiceImpl implements AgendamentoService {
         var novoAgendamento = new Agendamento();
         novoAgendamento.setPaciente(paciente);
         novoAgendamento.setHorarioDisponivel(horarioDisponivel);
-        novoAgendamento.setStatus(statusAgendamento);
+        novoAgendamento.setStatus(statusAgendamento.getId());
 
-        var agendamentoSalvo = agendamentoRepository.save(novoAgendamento);
+        agendamentoRepository.save(novoAgendamento);
 
         var dadosPaciente = new DadosIdentificacaoPacienteDTO(paciente.getNome(), paciente.getCpf());
 
@@ -50,7 +58,7 @@ public class AgendamentoServiceImpl implements AgendamentoService {
         Agendamento agendamento = agendamentoRepository.findById(agendamentoId).orElse(null);
 
         if (agendamento != null) {
-            agendamento.setStatus(StatusAgendamento.CANCELADO);
+            agendamento.setStatus(StatusAgendamento.CANCELADO.getId());
             return true;
         } else {
             return false;

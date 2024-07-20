@@ -5,6 +5,7 @@ import com.quiroprax.api.model.HorarioDisponivel;
 import com.quiroprax.api.model.assembler.HorarioDisponivelAssembler;
 import com.quiroprax.api.model.dto.CadastroHorariosDisponiveisDTO;
 import com.quiroprax.api.model.dto.HorarioDisponivelDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import java.util.Optional;
 @Service
 public class HorarioDisponivelServiceImpl implements HorarioDisponivelService {
 
+    @Autowired
     private HorarioDisponivelRepository horarioDisponivelRepository;
 
     private final HorarioDisponivelAssembler horarioDisponivelAssembler = new HorarioDisponivelAssembler();

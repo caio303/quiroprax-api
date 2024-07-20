@@ -47,7 +47,7 @@ public class HorarioDisponivelAssembler implements BaseAssembler<HorarioDisponiv
                     listaHorarios.add(this.paraEntidade(data, horario));
                 });
 
-        return null;
+        return listaHorarios;
     }
 
     private HorarioDisponivel paraEntidade(String data, String horario) {
