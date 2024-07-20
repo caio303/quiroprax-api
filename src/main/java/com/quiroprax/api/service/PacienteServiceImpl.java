@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class PacienteServiceImpl implements PacienteService {
@@ -99,5 +100,10 @@ public class PacienteServiceImpl implements PacienteService {
     @Override
     public boolean existePorId(Long pacienteId) {
         return pacienteRepository.existsById(pacienteId);
+    }
+
+    @Override
+    public Optional<Paciente> buscarPorId(Long pacienteId) {
+        return pacienteRepository.findById(pacienteId);
     }
 }
