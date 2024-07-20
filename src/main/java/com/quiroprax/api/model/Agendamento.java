@@ -1,5 +1,6 @@
 package com.quiroprax.api.model;
 
+import com.quiroprax.api.model.enums.StatusAgendamento;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -28,9 +29,9 @@ public class Agendamento {
 	private HorarioDisponivel horarioDisponivel;
 
 	@Enumerated(EnumType.ORDINAL)
-	private Integer status;
+	private StatusAgendamento status;
 
-	public Agendamento(Long id, Paciente paciente, Integer status, HorarioDisponivel horarioDisponivel) {
+	public Agendamento(Long id, Paciente paciente, StatusAgendamento status, HorarioDisponivel horarioDisponivel) {
 		this.id = id;
 		this.paciente = paciente;
 		this.status = status;
@@ -55,11 +56,11 @@ public class Agendamento {
 		this.paciente = paciente;
 	}
 
-	public Integer getStatus() {
+	public StatusAgendamento getStatus() {
 		return status;
 	}
 
-	public void setStatus(Integer status) {
+	public void setStatus(StatusAgendamento status) {
 		this.status = status;
 	}
 

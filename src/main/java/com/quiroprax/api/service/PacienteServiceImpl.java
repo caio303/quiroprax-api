@@ -63,7 +63,7 @@ public class PacienteServiceImpl implements PacienteService {
             throw new EntityAlreadyExistsException(Paciente.class, "email", email);
         }
 
-        var paciente = pacienteAssembler.paraPaciente(cadastroPacienteDTO);
+        var paciente = pacienteAssembler.paraEntidade(cadastroPacienteDTO);
         paciente.setAtivo(true);
 
         pacienteRepository.save(paciente);
@@ -90,9 +90,14 @@ public class PacienteServiceImpl implements PacienteService {
             paciente.setTelefone(alterarPacienteDTO.telefone());
             paciente.setCpf(alterarPacienteDTO.cpf());
 
-            return pacienteAssembler.paraPacienteDTO(paciente);
+            return pacienteAssembler.paraDTO(paciente);
         }
 
         return null;
+    }
+
+    @Override
+    public boolean existePorId(Long pacienteId) {
+        return pacienteRepository.existsById(pacienteId);
     }
 }
