@@ -4,12 +4,12 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-    <changeSet id="populate-atendente-table" author="quiroprax-admin">
-        <preConditions onFail="WARN" onFailMessage="Table needs to exists for it to be initialized: 'atendente'">
-            <tableExists tableName="atendente" />
+    <changeSet id="populate-usuario-table" author="quiroprax-admin">
+        <preConditions onFail="WARN" onFailMessage="Table needs to exists for it to be initialized: 'usuario'">
+            <tableExists tableName="usuario" />
         </preConditions>
 
-        <insert tableName="atendente">
+        <insert tableName="usuario">
             <column name="id">1</column>
             <column name="nome">Atendente 1</column>
             <column name="login">atendente1</column>
@@ -36,36 +36,6 @@
             <column name="telefone">(83) 2807-6711</column>
             <column name="cpf">01810864410</column>
             <column name="ativo" valueNumeric="1"></column>
-        </insert>
-
-        <modifySql>
-            <replace replace="INSERT" with="INSERT IGNORE"/>
-        </modifySql>
-    </changeSet>
-
-    <changeSet id="populate-status-table" author="quiroprax-admin">
-        <preConditions onFail="WARN" onFailMessage="Table needs to exists for it to be initialized: 'status_agendamento'">
-            <tableExists tableName="status_agendamento" />
-        </preConditions>
-
-        <insert tableName="status_agendamento">
-            <column name="id">1</column>
-            <column name="nome">AGENDADO</column>
-        </insert>
-
-        <insert tableName="status_agendamento">
-            <column name="id">2</column>
-            <column name="nome">REALIZADO</column>
-        </insert>
-
-        <insert tableName="status_agendamento">
-            <column name="id">3</column>
-            <column name="nome">CANCELADO</column>
-        </insert>
-
-        <insert tableName="status_agendamento">
-            <column name="id">4</column>
-            <column name="nome">REMARCADO</column>
         </insert>
 
         <modifySql>

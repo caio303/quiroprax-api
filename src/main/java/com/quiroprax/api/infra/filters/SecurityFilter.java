@@ -1,7 +1,7 @@
 package com.quiroprax.api.infra.filters;
 
-import com.quiroprax.api.service.AtendenteService;
 import com.quiroprax.api.service.TokenService;
+import com.quiroprax.api.service.UsuarioService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,7 +19,7 @@ import java.util.Objects;
 public class SecurityFilter extends OncePerRequestFilter {
 	
 	@Autowired private TokenService tokenService;
-	@Autowired private AtendenteService atendenteService;
+	@Autowired private UsuarioService usuarioService;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -30,7 +30,7 @@ public class SecurityFilter extends OncePerRequestFilter {
 			var decodedToken = tokenService.verifyAndReturnToken(jwtToken);
 			var tokenSubject = decodedToken.getSubject();
 
-			var userDetails = atendenteService.loadUserByUsername(tokenSubject);
+			var userDetails = usuarioService.loadUserByUsername(tokenSubject);
 
 			var authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 			SecurityContextHolder.getContext().setAuthentication(authentication);

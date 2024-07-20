@@ -8,7 +8,6 @@ import org.springframework.data.domain.Pageable;
 public interface AgendamentoService {
 
     Page<Agendamento> listarPorPaciente(Long pacienteId, Pageable paginacao);
-    Page<Agendamento> listarDisponiveis(Pageable paginacao);
 
     AgendamentoDTO marcar();
     AgendamentoDTO remarcarAgendamento(Long horarioDisponivelId);

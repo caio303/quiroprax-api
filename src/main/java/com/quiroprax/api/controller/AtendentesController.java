@@ -1,12 +1,12 @@
 package com.quiroprax.api.controller;
 
 import com.quiroprax.api.infra.configurations.swagger.BearerAuth;
-import com.quiroprax.api.model.dto.AtendenteDTO;
-import com.quiroprax.api.model.dto.CadastroAtendenteDTO;
+import com.quiroprax.api.model.dto.CadastroUsuarioDTO;
 import com.quiroprax.api.model.dto.LoginDTO;
 import com.quiroprax.api.model.dto.TokenDTO;
-import com.quiroprax.api.service.AtendenteService;
+import com.quiroprax.api.model.dto.UsuarioDTO;
 import com.quiroprax.api.service.AutenticacaoService;
+import com.quiroprax.api.service.UsuarioService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AtendentesController {
 
     @Autowired private AutenticacaoService autenticacaoService;
-    @Autowired private AtendenteService atendenteService;
+    @Autowired private UsuarioService usuarioService;
 
     @PostMapping("/login")
     public ResponseEntity<TokenDTO> login(@RequestBody @Valid LoginDTO loginDto) {
@@ -38,22 +38,22 @@ public class AtendentesController {
 
     @GetMapping
     @SecurityRequirement(name = BearerAuth.NAME)
-    public ResponseEntity<Page<AtendenteDTO>> listarAtendentes(@PageableDefault(size = 10) Pageable paginacao) {
-        var atendentesAtivos = atendenteService.listarAtendentes(paginacao);
+    public ResponseEntity<Page<UsuarioDTO>> listarAtendentes(@PageableDefault(size = 10) Pageable paginacao) {
+        var atendentesAtivos = usuarioService.listarUsuarios(paginacao);
         return ResponseEntity.ok(atendentesAtivos);
     }
 
     @PostMapping
     @SecurityRequirement(name = BearerAuth.NAME)
-    public ResponseEntity<Void> cadastroAtendente(@RequestBody @Valid CadastroAtendenteDTO cadastroAtendenteDTO) {
-        atendenteService.cadastrarAtendente(cadastroAtendenteDTO);
+    public ResponseEntity<Void> cadastroAtendente(@RequestBody @Valid CadastroUsuarioDTO cadastroUsuarioDTO) {
+        usuarioService.cadastrarUsuario(cadastroUsuarioDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @DeleteMapping(path = "/{atendenteId}")
     @SecurityRequirement(name = BearerAuth.NAME)
     public ResponseEntity<Void> removerAtendente(@PathVariable(name = "atendenteId") Long atendenteId) {
-        atendenteService.removerAtendente(atendenteId);
+        usuarioService.removerAtendente(atendenteId);
         return ResponseEntity.noContent().build();
     }
 }

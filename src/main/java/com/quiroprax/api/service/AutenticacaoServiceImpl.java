@@ -1,6 +1,6 @@
 package com.quiroprax.api.service;
 
-import com.quiroprax.api.model.Atendente;
+import com.quiroprax.api.model.Usuario;
 import com.quiroprax.api.model.dto.LoginDTO;
 import com.quiroprax.api.model.dto.TokenDTO;
 import org.slf4j.Logger;
@@ -24,7 +24,7 @@ public class AutenticacaoServiceImpl implements AutenticacaoService {
 		var token = new UsernamePasswordAuthenticationToken(loginDTO.login(), loginDTO.senha());
 		var authentication = authManager.authenticate(token);
 
-		var user = (Atendente) authentication.getPrincipal();
+		var user = (Usuario) authentication.getPrincipal();
 
 		var generatedToken = tokenService.generateToken(user);
 		return new TokenDTO(generatedToken);

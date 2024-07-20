@@ -21,11 +21,6 @@ public class AgendamentoServiceImpl implements AgendamentoService {
     }
 
     @Override
-    public Page<Agendamento> listarDisponiveis(Pageable paginacao) {
-        return null;
-    }
-
-    @Override
     public AgendamentoDTO marcar() {
         var agendamentoDTO = agendamentoRepository.findById(1L).orElse(null);
         return null;

@@ -82,11 +82,6 @@
             <column name="paciente_id"/>
         </createIndex>
     </changeSet>
-    <changeSet author="quiroprax-dev" id="1721489509831-8">
-        <createIndex associatedWith="" indexName="status_id" tableName="agendamento">
-            <column name="status_id"/>
-        </createIndex>
-    </changeSet>
     <changeSet author="quiroprax-dev" id="1721489509831-9">
         <addForeignKeyConstraint baseColumnNames="paciente_id" baseTableName="agendamento" constraintName="agendamento_ibfk_1" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="paciente" validate="true"/>
     </changeSet>
