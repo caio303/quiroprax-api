@@ -1,11 +1,11 @@
 package com.quiroprax.api.service;
 
-import com.quiroprax.api.dao.AtendenteRepository;
+import com.quiroprax.api.dao.UsuarioRepository;
 import com.quiroprax.api.infra.errors.exceptions.EntityAlreadyExistsException;
-import com.quiroprax.api.model.Atendente;
-import com.quiroprax.api.model.assembler.AtendenteAssembler;
-import com.quiroprax.api.model.dto.AtendenteDTO;
-import com.quiroprax.api.model.dto.CadastroAtendenteDTO;
+import com.quiroprax.api.model.Usuario;
+import com.quiroprax.api.model.assembler.UsuarioAssembler;
+import com.quiroprax.api.model.dto.CadastroUsuarioDTO;
+import com.quiroprax.api.model.dto.UsuarioDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,47 +22,47 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Service
-public class AtendenteServiceImpl implements AtendenteService {
+public class UsuarioServiceImpl implements UsuarioService {
 
-	private static final Logger logger = LoggerFactory.getLogger(AtendenteServiceImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(UsuarioServiceImpl.class);
 
 	@Lazy @Autowired private PasswordEncoder passwordEncoder;
-	@Autowired private AtendenteRepository atendenteRepository;
+	@Autowired private UsuarioRepository usuarioRepository;
 
-	private AtendenteAssembler atendenteAssembler = new AtendenteAssembler();
+	private UsuarioAssembler usuarioAssembler = new UsuarioAssembler();
 
 	@Override
 	@Transactional(readOnly = true)
-	public Page<AtendenteDTO> listarAtendentes(Pageable pageable) {
-		return atendenteRepository.findAllByAtivoTrue(pageable).map(AtendenteDTO::new);
+	public Page<UsuarioDTO> listarUsuarios(Pageable pageable) {
+		return usuarioRepository.findAllByAtivoTrue(pageable).map(UsuarioDTO::new);
 	}
 
 	@Override
 	@Modifying
 	@Transactional
-	public void cadastrarAtendente(CadastroAtendenteDTO signUpData) {
+	public void cadastrarUsuario(CadastroUsuarioDTO signUpData) {
 		var encryptedPassword = passwordEncoder.encode(signUpData.senha());
 		var login = signUpData.login();
-		var encryptedSignUpData = new CadastroAtendenteDTO(signUpData.nome(), login, encryptedPassword);
+		var encryptedSignUpData = new CadastroUsuarioDTO(signUpData.nome(), login, encryptedPassword);
 
-		if (atendenteRepository.existsByLogin(login)) {
-			throw new EntityAlreadyExistsException(Atendente.class, "login", login);
+		if (usuarioRepository.existsByLogin(login)) {
+			throw new EntityAlreadyExistsException(Usuario.class, "login", login);
 		}
 
-		var atendente = atendenteAssembler.paraAtendente(encryptedSignUpData);
-		atendenteRepository.save(atendente);
+		var atendente = usuarioAssembler.paraUsuario(encryptedSignUpData);
+		usuarioRepository.save(atendente);
 	}
 
 	@Override
 	@Transactional
 	public void removerAtendente(Long id) {
-		Optional<Atendente> atendente = atendenteRepository.findById(id);
+		Optional<Usuario> atendente = usuarioRepository.findById(id);
         atendente.ifPresent(value -> value.setAtivo(false));
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-		return atendenteRepository.findByLogin(login);
+		return usuarioRepository.findByLogin(login);
 	}
 }

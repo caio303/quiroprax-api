@@ -1,12 +1,12 @@
 package com.quiroprax.api.model.assembler;
 
-import com.quiroprax.api.model.Atendente;
-import com.quiroprax.api.model.dto.CadastroAtendenteDTO;
+import com.quiroprax.api.model.Usuario;
+import com.quiroprax.api.model.dto.CadastroUsuarioDTO;
 
-public class AtendenteAssembler {
+public class UsuarioAssembler {
 
-    public Atendente paraAtendente(CadastroAtendenteDTO signUpData) {
-        var atendente = new Atendente();
+    public Usuario paraUsuario(CadastroUsuarioDTO signUpData) {
+        var atendente = new Usuario();
         atendente.setNome(signUpData.nome());
         atendente.setLogin(signUpData.login());
         atendente.setSenha(signUpData.senha());
