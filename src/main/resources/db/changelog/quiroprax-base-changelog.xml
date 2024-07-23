@@ -29,6 +29,12 @@
             <column name="hora" remarks="formatação: '17:30'" type="VARCHAR(8)">
                 <constraints nullable="false"/>
             </column>
+            <column name="status" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueNumeric="1" name="ativo" type="BIT(1)">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
     <changeSet author="quiroprax-dev" id="1721489509831-3">

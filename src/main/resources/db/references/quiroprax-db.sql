@@ -18,13 +18,16 @@ CREATE TABLE `paciente` (
 CREATE TABLE `horario_disponivel` (
   `id` BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `data` VARCHAR(20) NOT NULL COMMENT 'formatação: ''25/04/2004''',
-  `hora` VARCHAR(8) NOT NULL COMMENT 'formatação: ''17:30'''
+  `hora` VARCHAR(8) NOT NULL COMMENT 'formatação: ''17:30''',
+  `status` INT NOT NULL,
+  `ativo` TINYINT(1) NOT NULL DEFAULT 1
 );
 
 CREATE TABLE `agendamento` (
   `id` BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `paciente_id` BIGINT NOT NULL,
-  `horario_disponivel_id` BIGINT NOT NULL
+  `horario_disponivel_id` BIGINT NOT NULL,
+  `status` INT NOT NULL
 );
 
 ALTER TABLE `agendamento` ADD FOREIGN KEY (`paciente_id`) REFERENCES `paciente` (`id`);

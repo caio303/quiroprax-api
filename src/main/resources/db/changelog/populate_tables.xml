@@ -43,4 +43,63 @@
         </modifySql>
     </changeSet>
 
+    <changeSet id="populate-horario_disponivel-table" author="quiroprax-admin">
+        <preConditions onFail="WARN" onFailMessage="Table needs to exists for it to be initialized: 'horario_disponivel'">
+            <tableExists tableName="horario_disponivel" />
+        </preConditions>
+
+        <insert tableName="horario_disponivel">
+            <column name="id">1</column>
+            <column name="data">08/08/2024</column>
+            <column name="hora">14:30</column>
+            <column name="status" valueNumeric="1"></column>
+            <column name="ativo" valueNumeric="1"></column>
+        </insert>
+
+        <insert tableName="horario_disponivel">
+            <column name="id">2</column>
+            <column name="data">08/08/2024</column>
+            <column name="hora">15:30</column>
+            <column name="status" valueNumeric="1"></column>
+            <column name="ativo" valueNumeric="1"></column>
+        </insert>
+
+        <insert tableName="horario_disponivel">
+            <column name="id">3</column>
+            <column name="data">08/08/2024</column>
+            <column name="hora">16:30</column>
+            <column name="status" valueNumeric="1"></column>
+            <column name="ativo" valueNumeric="1"></column>
+        </insert>
+
+        <insert tableName="horario_disponivel">
+            <column name="id">4</column>
+            <column name="data">08/08/2024</column>
+            <column name="hora">17:30</column>
+            <column name="status" valueNumeric="2"></column>
+            <column name="ativo" valueNumeric="1"></column>
+        </insert>
+
+        <modifySql>
+            <replace replace="INSERT" with="INSERT IGNORE"/>
+        </modifySql>
+    </changeSet>
+
+    <changeSet id="populate-agendamento-table" author="quiroprax-admin">
+        <preConditions onFail="WARN" onFailMessage="Table needs to exists for it to be initialized: 'agendamento'">
+            <tableExists tableName="agendamento" />
+        </preConditions>
+
+        <insert tableName="agendamento">
+            <column name="id">1</column>
+            <column name="paciente_id" valueNumeric="1"></column>
+            <column name="horario_disponivel_id" valueNumeric="4"></column>
+            <column name="status">1</column>
+        </insert>
+
+        <modifySql>
+            <replace replace="INSERT" with="INSERT IGNORE"/>
+        </modifySql>
+    </changeSet>
+
 </databaseChangeLog>
