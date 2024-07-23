@@ -53,8 +53,8 @@ public class AgendamentoServiceImpl implements AgendamentoService {
     }
 
     @Override
-    public Agendamento cancelarAgendamento(Agendamento agendamento) {
-        agendamento.setStatus(StatusAgendamento.CANCELADO.getId());
+    public Agendamento atualizarStatus(Agendamento agendamento, StatusAgendamento statusAgendamento) {
+        agendamento.setStatus(statusAgendamento.getId());
         return agendamento;
     }
 

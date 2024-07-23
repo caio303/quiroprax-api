@@ -4,6 +4,7 @@ import com.quiroprax.api.model.Agendamento;
 import com.quiroprax.api.model.HorarioDisponivel;
 import com.quiroprax.api.model.Paciente;
 import com.quiroprax.api.model.dto.AgendamentoDTO;
+import com.quiroprax.api.model.enums.StatusAgendamento;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -17,7 +18,7 @@ public interface AgendamentoService {
 
     AgendamentoDTO remarcarAgendamento(Agendamento agendamento, HorarioDisponivel horarioDisponivel);
 
-    Agendamento cancelarAgendamento(Agendamento agendamento);
+    Agendamento atualizarStatus(Agendamento agendamento, StatusAgendamento statusAgendamento);
 
     Optional<Agendamento> buscarPorId(Long agendamentoId);
 }

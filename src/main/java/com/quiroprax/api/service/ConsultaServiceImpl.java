@@ -6,6 +6,7 @@ import com.quiroprax.api.model.Agendamento;
 import com.quiroprax.api.model.HorarioDisponivel;
 import com.quiroprax.api.model.Usuario;
 import com.quiroprax.api.model.dto.AgendamentoDTO;
+import com.quiroprax.api.model.enums.StatusAgendamento;
 import com.quiroprax.api.model.enums.StatusHorario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -69,7 +70,7 @@ public class ConsultaServiceImpl implements ConsultaService {
             if (horarioDisponivel != null) {
                 horarioDisponivelService.atualizarStatus(horarioDisponivel, StatusHorario.DISPONIVEL);
 
-                return agendamentoService.cancelarAgendamento(agendamento);
+                return agendamentoService.atualizarStatus(agendamento, StatusAgendamento.CANCELADO);
             } else {
                 throw new EntityNotFoundException(HorarioDisponivel.class, "id", horarioDisponivelId);
             }
