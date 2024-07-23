@@ -1,6 +1,6 @@
 package com.quiroprax.api.model.enums;
 
-public enum StatusAgendamento {
+public enum StatusAgendamento implements StatusWithId {
 
     AGENDADO(1),
     REALIZADO(2),
@@ -15,14 +15,14 @@ public enum StatusAgendamento {
 
     public static StatusAgendamento forId(Integer statusId) {
         for (StatusAgendamento status : StatusAgendamento.values()) {
-            if (status.getId().equals(statusId)) {
+            if (status.getId() == statusId) {
                 return status;
             }
         }
         return null;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 }
