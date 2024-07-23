@@ -5,6 +5,7 @@ import com.quiroprax.api.model.dto.AlterarPacienteDTO;
 import com.quiroprax.api.model.dto.CadastroPacienteDTO;
 import com.quiroprax.api.model.dto.PacienteDTO;
 import com.quiroprax.api.service.PacienteServiceImpl;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,8 @@ public class PacientesController {
     }
 
     @GetMapping(path = "/buscar")
-    public ResponseEntity<PacienteDTO> listarPacientes(
+    @Operation(description = "Pesquisar paciente")
+    public ResponseEntity<PacienteDTO> pesquisarPaciente(
             @RequestParam(name = "id", required = false) Long id,
             @RequestParam(name = "nome", required = false) String nome,
             @RequestParam(name = "email", required = false) String email,
@@ -53,18 +55,21 @@ public class PacientesController {
     }
 
     @PostMapping
+    @Operation(description = "Cadastrar paciente")
     public ResponseEntity<Void> cadastroPaciente(@RequestBody @Valid CadastroPacienteDTO cadastroPacienteDTO) {
         pacienteService.cadastrarPaciente(cadastroPacienteDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @DeleteMapping(path = "/{pacienteId}")
+    @Operation(description = "Remover paciente")
     public ResponseEntity<Void> removerPaciente(@PathVariable(name = "pacienteId") Long atendenteId) {
         pacienteService.removerPaciente(atendenteId);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping(path = "/{pacienteId}")
+    @Operation(description = "Alterar dados de um paciente")
     public ResponseEntity<PacienteDTO> alterarPaciente(@PathVariable(name = "pacienteId") Long pacienteId,
                                                        @RequestBody AlterarPacienteDTO alterarPacienteDTO) {
         var pacienteDTO = pacienteService.alterarPaciente(pacienteId, alterarPacienteDTO);
@@ -75,4 +80,5 @@ public class PacientesController {
 
         return ResponseEntity.ok(pacienteDTO);
     }
+
 }
