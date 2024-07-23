@@ -2,6 +2,8 @@ package com.quiroprax.api.service;
 
 import com.quiroprax.api.dao.PacienteRepository;
 import com.quiroprax.api.infra.errors.exceptions.EntityAlreadyExistsException;
+import com.quiroprax.api.infra.errors.exceptions.EntityNotFoundException;
+import com.quiroprax.api.infra.errors.exceptions.OperationErrorException;
 import com.quiroprax.api.model.Paciente;
 import com.quiroprax.api.model.assembler.PacienteAssembler;
 import com.quiroprax.api.model.dto.AlterarPacienteDTO;
@@ -35,20 +37,20 @@ public class PacienteServiceImpl implements PacienteService {
 
     @Override
     public PacienteDTO buscar(Long id, String nome, String email, String cpf) {
-        PacienteDTO paciente;
+        Optional<Paciente> paciente;
         if (Objects.nonNull(id)) {
-            paciente = pacienteRepository.findByIdAndAtivoTrue(id).map(PacienteDTO::new).orElse(null);
+            paciente = pacienteRepository.findByIdAndAtivoTrue(id);
         } else if (Objects.nonNull(email)) {
-            paciente = pacienteRepository.findByEmailAndAtivoTrue(email).map(PacienteDTO::new).orElse(null);
+            paciente = pacienteRepository.findByEmailAndAtivoTrue(email);
         } else if (Objects.nonNull(cpf)) {
-            paciente = pacienteRepository.findByCpfAndAtivoTrue(cpf).map(PacienteDTO::new).orElse(null);
+            paciente = pacienteRepository.findByCpfAndAtivoTrue(cpf);
         } else if (Objects.nonNull(nome)) {
-            paciente = pacienteRepository.findByNomeAndAtivoTrue(nome).map(PacienteDTO::new).orElse(null);
+            paciente = pacienteRepository.findByNomeAndAtivoTrue(nome);
         } else {
-            return null;
+            throw new OperationErrorException("Busca de paciente", "É necessário informar pelo menos um dos filtros de busca");
         }
 
-        return paciente;
+        return paciente.map(PacienteDTO::new).orElse(null);
     }
 
     @Override
@@ -78,11 +80,11 @@ public class PacienteServiceImpl implements PacienteService {
             var cpf = alterarPacienteDTO.cpf();
 
             if (pacienteRepository.existsByEmailAndIdNot(email, pacienteId)) {
-                throw new EntityAlreadyExistsException(Paciente.class, "email", email);
+                throw new EntityAlreadyExistsException(Paciente.class, "E-mail", email);
             }
 
             if (pacienteRepository.existsByCpfAndIdNot(cpf, pacienteId)) {
-                throw new EntityAlreadyExistsException(Paciente.class, "cpf", cpf);
+                throw new EntityAlreadyExistsException(Paciente.class, "CPF", cpf);
             }
 
             var paciente = pacienteOptional.get();
@@ -92,9 +94,9 @@ public class PacienteServiceImpl implements PacienteService {
             paciente.setCpf(alterarPacienteDTO.cpf());
 
             return pacienteAssembler.paraDTO(paciente);
+        } else {
+            throw new EntityNotFoundException(Paciente.class, "id", pacienteId);
         }
-
-        return null;
     }
 
     @Override

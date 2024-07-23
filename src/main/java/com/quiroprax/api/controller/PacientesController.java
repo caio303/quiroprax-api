@@ -39,19 +39,19 @@ public class PacientesController {
     }
 
     @GetMapping(path = "/buscar")
-    @Operation(description = "Pesquisar paciente")
+    @Operation(description = "Buscar paciente")
     public ResponseEntity<PacienteDTO> pesquisarPaciente(
             @RequestParam(name = "id", required = false) Long id,
             @RequestParam(name = "nome", required = false) String nome,
             @RequestParam(name = "email", required = false) String email,
             @RequestParam(name = "cpf", required = false) String cpf) {
-        var paciente = pacienteService.buscar(id, nome, email, cpf);
+        var pacienteDTO = pacienteService.buscar(id, nome, email, cpf);
 
-        if (Objects.isNull(paciente)) {
+        if (Objects.isNull(pacienteDTO)) {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(paciente);
+        return ResponseEntity.ok(pacienteDTO);
     }
 
     @PostMapping
@@ -73,10 +73,6 @@ public class PacientesController {
     public ResponseEntity<PacienteDTO> alterarPaciente(@PathVariable(name = "pacienteId") Long pacienteId,
                                                        @RequestBody AlterarPacienteDTO alterarPacienteDTO) {
         var pacienteDTO = pacienteService.alterarPaciente(pacienteId, alterarPacienteDTO);
-
-        if (Objects.isNull(pacienteDTO)) {
-            return ResponseEntity.notFound().build();
-        }
 
         return ResponseEntity.ok(pacienteDTO);
     }

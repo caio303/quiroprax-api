@@ -3,6 +3,7 @@ package com.quiroprax.api.service;
 import com.quiroprax.api.model.HorarioDisponivel;
 import com.quiroprax.api.model.dto.CadastroHorariosDisponiveisDTO;
 import com.quiroprax.api.model.dto.HorarioDisponivelDTO;
+import com.quiroprax.api.model.enums.StatusHorario;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -16,4 +17,6 @@ public interface HorarioDisponivelService {
     void cadastrarHorariosDisponiveis(List<CadastroHorariosDisponiveisDTO> novosHorariosDTO);
 
     Optional<HorarioDisponivel> buscarPorId(Long horarioDisponivelId);
+
+    HorarioDisponivel atualizarStatus(HorarioDisponivel horarioDisponivel, StatusHorario statusHorario);
 }

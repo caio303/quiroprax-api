@@ -16,11 +16,15 @@ public class HorarioDisponivel {
 
     private String data;
     private String hora;
+    private Integer status;
+    private Boolean ativo;
 
-    public HorarioDisponivel(Long id, String data, String hora) {
+    public HorarioDisponivel(Long id, String data, String hora, Integer status, Boolean ativo) {
         this.id = id;
         this.data = data;
         this.hora = hora;
+        this.status = status;
+        this.ativo = ativo;
     }
 
     public HorarioDisponivel() {
@@ -48,5 +52,21 @@ public class HorarioDisponivel {
 
     public void setHora(String hora) {
         this.hora = hora;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Boolean getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
     }
 }

@@ -5,6 +5,7 @@ import com.quiroprax.api.model.HorarioDisponivel;
 import com.quiroprax.api.model.assembler.HorarioDisponivelAssembler;
 import com.quiroprax.api.model.dto.CadastroHorariosDisponiveisDTO;
 import com.quiroprax.api.model.dto.HorarioDisponivelDTO;
+import com.quiroprax.api.model.enums.StatusHorario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +24,7 @@ public class HorarioDisponivelServiceImpl implements HorarioDisponivelService {
 
     @Override
     public Page<HorarioDisponivelDTO> listarDisponiveis(Pageable paginacao) {
-        return horarioDisponivelRepository.findAll(paginacao)
+        return horarioDisponivelRepository.findAllByAtivoTrueAndStatus(StatusHorario.DISPONIVEL.getId(), paginacao)
                 .map(horarioDisponivelAssembler::paraDTO);
     }
 
@@ -36,5 +37,11 @@ public class HorarioDisponivelServiceImpl implements HorarioDisponivelService {
     @Override
     public Optional<HorarioDisponivel> buscarPorId(Long horarioDisponivelId) {
         return horarioDisponivelRepository.findById(horarioDisponivelId);
+    }
+
+    @Override
+    public HorarioDisponivel atualizarStatus(HorarioDisponivel horarioDisponivel, StatusHorario statusHorario) {
+        horarioDisponivel.setStatus(statusHorario.getId());
+        return horarioDisponivel;
     }
 }

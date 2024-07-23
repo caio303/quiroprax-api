@@ -12,23 +12,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class AgendamentoServiceImpl implements AgendamentoService {
 
     @Autowired
     private AgendamentoRepository agendamentoRepository;
-    @Autowired
-    private PacienteService pacienteService;
 
     @Override
-    public Page<AgendamentoDTO> listarPorPaciente(Long pacienteId, Pageable paginacao) {
-        var paciente = pacienteService.buscarPorId(pacienteId);
-        if (paciente.isPresent()) {
-            var agendamentosDoPaciente = agendamentoRepository.findAllByPaciente(paciente.get(), paginacao);
-            return agendamentosDoPaciente.map(AgendamentoDTO::new);
-        } else {
-            return Page.empty();
-        }
+    public Page<AgendamentoDTO> listarPorPaciente(Paciente paciente, Pageable paginacao) {
+        var agendamentosDoPaciente = agendamentoRepository.findAllByPaciente(paciente, paginacao);
+        return agendamentosDoPaciente.map(AgendamentoDTO::new);
     }
 
     @Override
@@ -49,20 +44,22 @@ public class AgendamentoServiceImpl implements AgendamentoService {
     }
 
     @Override
-    public AgendamentoDTO remarcarAgendamento(Long pacienteId, HorarioDisponivel horarioDisponivel) {
-        return null;
+    public AgendamentoDTO remarcarAgendamento(Agendamento agendamento, HorarioDisponivel horarioDisponivel) {
+        agendamento.setStatus(StatusAgendamento.REMARCADO.getId());
+        agendamento.setHorarioDisponivel(horarioDisponivel);
+
+        return new AgendamentoDTO(agendamento);
+
     }
 
     @Override
-    public boolean cancelarAgendamento(Long agendamentoId) {
-        Agendamento agendamento = agendamentoRepository.findById(agendamentoId).orElse(null);
+    public Agendamento cancelarAgendamento(Agendamento agendamento) {
+        agendamento.setStatus(StatusAgendamento.CANCELADO.getId());
+        return agendamento;
+    }
 
-        if (agendamento != null) {
-            agendamento.setStatus(StatusAgendamento.CANCELADO.getId());
-            return true;
-        } else {
-            return false;
-        }
-
+    @Override
+    public Optional<Agendamento> buscarPorId(Long agendamentoId) {
+        return agendamentoRepository.findById(agendamentoId);
     }
 }
