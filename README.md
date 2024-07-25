@@ -4,6 +4,7 @@ Quiroprax API
 ## Necessário (Recomendado)
 * Java 17 (v17.0.3)
 * Apache Maven 3.8.6
+* MySQL
 
 
 ## Rodar Backend (dev)
