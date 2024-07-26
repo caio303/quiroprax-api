@@ -13,6 +13,8 @@ cd api
 mvn clean install -D skipTests -P dev
 mvn spring-boot:run -P dev
 ```
+Obs.: Ajuste as informações de acesso ao seu banco de dados MySQL no arquivo de configurações em
+`src/main/resources/application-dev.properties`
 
 
 ## Documentação
